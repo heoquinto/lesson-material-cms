@@ -1,11 +1,14 @@
 'use strict';
 
+import * as svgConstants from 'src/grapesjs/config/svg-constants';
 
 export default {
     created () {
         this.$notification = {
             success: (message, options) => this.initializeToastr(message, options, 'SUCCESS!', 'success')
         };
+
+        this.svg = svgConstants;
     },
 
     methods: {

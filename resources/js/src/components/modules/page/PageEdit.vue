@@ -1,23 +1,17 @@
 <template>
     <div>
-          <div id="gjs" style="height:0px; overflow:hidden">
-      
-    </div>
-        <!-- <div id="blocks"></div> -->
+        <div id="gjs" style="height:0px; overflow:hidden"/>
     </div>
 </template>
 
-<style>
-</style>
-
 <script>
+'use strict';
 
 import grapesjs from 'grapesjs'
 import 'grapesjs/dist/css/grapes.min.css'
 import 'grapesjs/dist/grapes.min.js'
 import 'grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.css'
 import 'grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.js'
-import 'grapesjs-blocks-bootstrap4/dist/grapesjs-blocks-bootstrap4.min.js'
 
 export default {
     name: "PageEdit",
@@ -25,13 +19,9 @@ export default {
     mounted() {
         let editor = grapesjs.init({
             container : '#gjs',
-            plugins: [
-                
-                'gjs-preset-webpage', 
-               
-            ],
+            plugins: ['gjs-preset-webpage'],
             storageManager: {
-                id: "gjs-",
+                id: `gjs-${this.$route.params.pageId}-`,
                 type: "local",
                 autosave: true,
                 storeComponents: true,
@@ -75,149 +65,126 @@ export default {
                         ],
                         flexGrid: 1,
                     },
-                    // blocks: ["link-block", "quote", "text-basic"],
+                    blocks: ["link-block", "quote", "text-basic"],
                 },
-                // 'grapesjs-blocks-bootstrap4': {
-                //     blocks: {
-                //     },
-                //     blockCategories: {
-                //     },
-                //     labels: {
-                //         // ...
-                //     },
-                //     // ...
-                // }
             },
-            canvas: {
-                // styles: [
-                // 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css'
-                // ],
-                // scripts: [
-                // 'https://code.jquery.com/jquery-3.3.1.slim.min.js',
-                // 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js',
-                // 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js'
-                // ],
-            }
         });
 
-        // editor.BlockManager.add('h1-block', {
-        //     label: "Custom Widget",
-        //     content:`
-        //             <style>
-        //                 .grid-container {
-        //                     display: grid;
-        //                     grid-template-columns: auto auto auto auto;
-        //                     grid-gap: 10px;
-        //                     padding: 10px;
-        //                 }
-        //                 img {
-        //                     width: 100%;
-        //                     height: 50%;
-        //                 }
-        //             </style>
-        //             <div>
-        //                 <div class="grid-container">
-        //                     <div class="item1 container">
-        //                         <img class="mr-3" src="/images/person.png">
-        //                     </div>
-        //                     <div class="item2">
-        //                         <img src="/images/speech_bubble.png">
-        //                     </div>
-        //                 </div>
-        //             </div>
-        //         `,
-        //     activate: true,
-        // });
-        editor.BlockManager.add('h1-block', {
-            label: "Custom Widget",
-            content:`
-                    <style>
-                        * {
-  box-sizing: border-box;
-}
-body {
-  margin: 0;
-}
-.row{
-  display:table;
-  padding-top:10px;
-  padding-right:10px;
-  padding-bottom:10px;
-  padding-left:10px;
-  width:100%;
-}
-.cell{
-  width:8%;
-  display:table-cell;
-  height:75px;
-}
-.grid-container{
-  display:grid;
-  grid-template-columns:auto auto auto auto;
-  row-gap:10px;
-  column-gap:10px;
-  padding-top:10px;
-  padding-right:10px;
-  padding-bottom:10px;
-  padding-left:10px;
-}
-img{
-  width:100%;
-  height:50%;
-}
-.mr-3{
-  height:132px;
-  width:135.375px;
-  margin:0 0 0 13px;
-  padding:0 0 0 0;
-}
-#if2i3{
-  height:87px;
-  width:279px;
-}
-.item1.container{
-  padding:0 0 0 0;
-  width:22px;
-}
-#i6fvl{
-  padding:10px;
-  position: absolute;
-  top: 5%;
-  left: 8%;
-}
-@media (max-width: 768px){
-  .cell{
-    width:100%;
-    display:block;
-  }
-}
+        editor.Panels.addButton('options', [ { 
+            id: 'save', 
+            className: 'fa fa-floppy-o icon-blank', 
+            command: async () =>  {
+                this.saveTemplate(editor);
+            }, 
+            attributes: { title: 'Save Template' }
+        }]);
 
-                    </style>
-                    <div class="row">
-                        <div class="cell">
-                            <div class="row">
-                                <div class="cell">
-                                <div id="i7yb">
-                                    <div class="grid-container">
-                                    <div class="item1 container">
-                                        <img src="/images/person.png" class="mr-3"/>
-                                    </div>
-                                    <div class="item2">
-                                        <div id="i6fvl">Insert your text here
+        setTimeout(() => {
+            editor.BlockManager.getCategories().each(ctg => ctg.set('open', false))
+        }, 100);
+        
+        editor.BlockManager.add('chat-bubble-block', {
+                label: "Left Chat Bubble",
+                media: this.svg.SVG_CHAT_LEFT_TEXT_FILL,
+                category: {
+                    id: 'custom-widgets', 
+                    label: 'Custom Widgets'
+                },
+                content:`
+                        <style>
+                            .speech-bubble-container {
+                                display: grid;
+                                grid-template-columns: auto auto;
+                            }
+                            .speech-bubble-box{
+                                position: relative;
+                                display: inline-block;
+                            }
+                            .speech-bubble-box .left-text{
+                                background-size: initial;
+                                color: #595353;
+                                left: 85px;
+                                position: absolute;
+                                top: 22%;
+                                width: 60%;
+                            }
+                            img {
+                                width: 90%
+                            }
+                        </style>
+                        <div>
+                            <div class="speech-bubble-container">
+                                <div class="container">
+                                    <img src="/images/person.png">
+                                </div>
+                                <div>
+                                    <div class="speech-bubble-box">
+                                        <img src="/images/speech-bubble-left-2.png">
+                                        <div class="left-text">
+                                            <p>Place you text here </p>
                                         </div>
-                                        <img src="/images/speech_bubble.png" id="if2i3"/>
-                                    </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    `,
+                activate: true,
+            },
+        );
+
+        editor.BlockManager.add('chat-bubble-block', {
+            label: "Right Chat Bubble",
+            media: this.svg.SVG_CHAT_RIGHT_TEXT_FILL,
+            category: {
+                id: 'custom-widgets', 
+                label: 'Custom Widgets',
+            },
+            content: `
+                    <style>
+                        .speech-bubble-container-right {
+                            display: grid;
+                            grid-template-columns: auto auto;
+                        }
+                        .speech-bubble-box-right {
+                            position: relative;
+                            display: inline-block;
+                        }
+                        .speech-bubble-box-right .text{
+                            background-size: initial;
+                            color: #fff;
+                            left: 85px;
+                            position: absolute;
+                            top: 22%;
+                            width: 60%;
+                        }
+                        img {
+                            width: 100%
+                        }
+                    </style>
+                    <div>
+                        <div class="speech-bubble-container-right">
+                            <div>
+                                <div class="speech-bubble-box-right">
+                                    <img src="/images/speech-bubble-right-2.png">
+                                    <div class="text">
+                                        <p>Place you text here </p>
+                                    </div>
                                 </div>
-                                <div class="cell">
-                                </div>
+                            </div>
+                            <div class="container">
+                                <img src="/images/person.png">
                             </div>
                         </div>
                     </div>
                 `,
             activate: true,
-        });
+        });  
     },
+
+    methods: {
+        saveTemplate (editor) {
+            alert(editor.getHtml()) ;
+        }
+    }
 };
 </script>

@@ -5,14 +5,9 @@
             :columns="columns"
             :options="DataTable_options"
         >
-       <span slot="actions" slot-scope="{row}"> 
-            <slot style="width: 20px" name="actionButtons" :row="row" />
-        </span>
-
-            <!-- <template slot-scope="props"> -->
-                <!-- {{props}} -->
-                <!-- <slot style="width: 20px" name="actionButtons" slot="actions" /> -->
-            <!-- </template>             -->
+            <span slot="actions" slot-scope="{row}"> 
+                <slot style="width: 20px" name="actionButtons" :row="row" />
+            </span>
         </v-server-table>
     </div>
 </template>
