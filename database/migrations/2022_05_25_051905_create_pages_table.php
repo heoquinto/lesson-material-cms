@@ -20,6 +20,8 @@ class CreatePagesTable extends Migration
             $table->string('url');
             $table->longText('content')->nullable();
             $table->longText('css')->nullable();
+            $table->longText('styles')->nullable();
+            $table->longText('components')->nullable();
             $table->timestamps();
         });
     }

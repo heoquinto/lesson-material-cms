@@ -12,6 +12,7 @@ import 'grapesjs/dist/css/grapes.min.css'
 import 'grapesjs/dist/grapes.min.js'
 import 'grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.css'
 import 'grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.js'
+import axios from 'axios';
 
 export default {
     name: "PageEdit",
@@ -183,7 +184,25 @@ export default {
 
     methods: {
         saveTemplate (editor) {
-            alert(editor.getHtml()) ;
+            // alert(editor.getHtml()) ;
+            axios({
+                method: 'POST',
+                url: '/save-page',
+                data: {
+                    html: editor.getHtml(),
+                    css: editor.getCss(),
+                    styles: editor.getStyle(),
+                    components: editor.getComponents(),
+                    id: this.$route.params.pageId
+                }
+                })
+                .then(function (response) {
+                   if(response.status === 200) {
+                       alert("Changes saved successfully!");
+                   } else {
+                       alert("Something went wrong. Please try again.");
+                   }
+                });
         }
     }
 };
