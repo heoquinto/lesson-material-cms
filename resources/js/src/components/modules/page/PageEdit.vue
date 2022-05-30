@@ -84,7 +84,7 @@ export default {
             editor.BlockManager.getCategories().each(ctg => ctg.set('open', false))
         }, 100);
         
-        editor.BlockManager.add('chat-bubble-block', {
+        editor.BlockManager.add('left-chat-bubble-block', {
                 label: "Left Chat Bubble",
                 media: this.svg.SVG_CHAT_LEFT_TEXT_FILL,
                 category: {
@@ -133,7 +133,7 @@ export default {
             },
         );
 
-        editor.BlockManager.add('chat-bubble-block', {
+        editor.BlockManager.add('right-chat-bubble-block', {
             label: "Right Chat Bubble",
             media: this.svg.SVG_CHAT_RIGHT_TEXT_FILL,
             category: {
