@@ -5,7 +5,7 @@
                 <b-tab title="Pages" active>
                     <data-table url="pages" :columns="columns" ref="table">
                         <template slot="actionButtons" slot-scope="{row}">
-                            <b-button size="sm" variant="light">View <b-icon icon="eye" font-scale="1" /></b-button>
+                            <b-button @click="viewPage(row.id)" size="sm" variant="light">View <b-icon icon="eye" font-scale="1" /></b-button>
                             <b-button @click="editPage(row.id)" size="sm" variant="primary">
                                 Edit <b-icon icon="pencil-square" font-scale="1" />
                             </b-button>
@@ -96,6 +96,10 @@ export default {
 
         editPage(pageId) {
             this.$router.push({ path: `/page/edit/${pageId}`});
+        },
+
+        viewPage(pageId) {
+            window.open("/published/"+pageId, "_blank");
         }
     },
 }

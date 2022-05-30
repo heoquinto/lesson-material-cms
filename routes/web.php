@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\CustomPagesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('logout', 'LoginController@logout');
 });
+
+Route::post('/save-page', [CustomPagesController::class, 'store']);
+Route::get('/published/{id}',  [CustomPagesController::class, 'loadPages']);
