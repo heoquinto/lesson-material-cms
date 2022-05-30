@@ -16,4 +16,8 @@ class PageRespository
             'components' => $request->input('components'),
         ]);
     }
+
+    public function findPage($pageId) {
+        return Pages::find($pageId);
+    }
 }

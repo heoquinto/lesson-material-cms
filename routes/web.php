@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\CustomPagesController;
+use App\Http\Controllers\PublishPagesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +30,4 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 Route::post('/save-page', [CustomPagesController::class, 'store']);
+Route::get('/published/{id}',  [PublishPagesController::class, 'loadPages']);
