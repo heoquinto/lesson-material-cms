@@ -7,9 +7,9 @@ class PageEditorService
 {
     protected $pageRepo;
 
-    public function __construct(PageRespository $pageRespository)
+    public function __construct()
     {
-        $this->pageRepo = $pageRespository;
+        $this->pageRepo = new PageRespository;
     }
     public function store($request) {
         return $this->pageRepo->update($request);
