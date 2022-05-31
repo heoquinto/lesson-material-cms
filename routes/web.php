@@ -24,9 +24,9 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::resource('pages', PageController::class)->only(['index', 'store']);
+    Route::delete('/delete-page/{id}', [PageController::class, 'destroy']);
+    Route::post('/save-page', [CustomPagesController::class, 'store']);
+    Route::get('/published/{id}',  [CustomPagesController::class, 'loadPages']);
 
     Route::get('logout', 'LoginController@logout');
 });
-
-Route::post('/save-page', [CustomPagesController::class, 'store']);
-Route::get('/published/{id}',  [CustomPagesController::class, 'loadPages']);

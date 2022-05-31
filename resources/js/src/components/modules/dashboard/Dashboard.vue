@@ -9,10 +9,10 @@
                             <b-button @click="editPage(row.id)" size="sm" variant="primary">
                                 Edit <b-icon icon="pencil-square" font-scale="1" />
                             </b-button>
-                            <b-button size="sm" variant="secondary">
+                            <!-- <b-button size="sm" variant="secondary">
                                 Settings <b-icon icon="gear-fill" font-scale="1" />
-                            </b-button>
-                            <b-button size="sm" variant="danger">
+                            </b-button> -->
+                            <b-button @click="deletePage(row.id)" size="sm" variant="danger">
                                 Delete <b-icon icon="trash-fill" font-scale="1" />
                             </b-button>
                         </template>
@@ -100,6 +100,20 @@ export default {
 
         viewPage(pageId) {
             window.open("/published/"+pageId, "_blank");
+        },
+
+        deletePage(pageId) {
+            axios
+                .delete('/delete-page/' + pageId)
+                .then(() => {
+                     this.$notification.success(
+                        "Page has been successfully deleted."
+                    );
+                    this.table.reloadData();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         }
     },
 }

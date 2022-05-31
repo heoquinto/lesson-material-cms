@@ -7,23 +7,25 @@ use App\Services\PageEditorService;
 use App\Services\PublishPagesService;
 
 class CustomPagesController extends Controller
-{   
+{
     protected $pageEditor;
     protected $publishPages;
 
     public function __construct()
     {
-        $this->pageEditor = new PageEditorService;    
-        $this->publishPages = new PublishPagesService;    
+        $this->pageEditor = new PageEditorService;
+        $this->publishPages = new PublishPagesService;
     }
-    
-    function store(Request $request) {
+
+    function store(Request $request)
+    {
         return $this->pageEditor->store($request);
     }
 
-    public function loadPages($pageId) {
+    public function loadPages($pageId)
+    {
         $publishPages = $this->publishPages->load($pageId);
-        if($publishPages) {
+        if ($publishPages) {
             $publishPages->content = urldecode($publishPages->content);
             return view('published.index', ['publishPages' => $publishPages]);
         }
