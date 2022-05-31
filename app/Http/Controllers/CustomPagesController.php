@@ -24,6 +24,7 @@ class CustomPagesController extends Controller
     public function loadPages($pageId) {
         $publishPages = $this->publishPages->load($pageId);
         if($publishPages) {
+            $publishPages->content = urldecode($publishPages->content);
             return view('published.index', ['publishPages' => $publishPages]);
         }
 
