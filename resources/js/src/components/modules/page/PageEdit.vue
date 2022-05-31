@@ -189,7 +189,7 @@ export default {
                 method: 'POST',
                 url: '/save-page',
                 data: {
-                    html: editor.getHtml(),
+                    html: encodeURI(editor.getHtml()),
                     css: editor.getCss(),
                     styles: editor.getStyle(),
                     components: editor.getComponents(),
