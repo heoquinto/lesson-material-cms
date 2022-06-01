@@ -10,7 +10,7 @@ class PageRespository
     {
         return Pages::where('id', $request->input('id'))
             ->update([
-                'content' => $request->input('html'),
+                'content' => urlencode($request->input('html')),
                 'css' => $request->input('css'),
                 'styles' => $request->input('styles'),
                 'components' => $request->input('components'),

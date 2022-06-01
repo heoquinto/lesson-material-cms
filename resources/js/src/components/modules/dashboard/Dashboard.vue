@@ -20,14 +20,14 @@
                     <modal btn-name="Add new page" ref="modal">
                         <form-input v-model="field.title" title="Title" />
                         <form-input v-model="field.url" title="URL" />
-                        <div class="mt-4">
+                        <!-- <div class="mt-4">
                             <h6>Page Details</h6>
                             <form-input title="Program" />
                             <form-input title="Level" />
                             <form-input title="Rank" />
                             <form-input title="Lesson" />
-                        </div>
-                        <b-button @click="savePage" variant="primary">
+                        </div> -->
+                        <b-button class="pull-right" @click="savePage" variant="primary">
                             Save
                         </b-button>
                     </modal>
